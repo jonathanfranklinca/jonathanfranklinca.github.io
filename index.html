@@ -343,7 +343,7 @@
                             <img src="https://i.imgur.com/kHdTbCB.png" alt="Grenade Explosion Logic">
                         </div>
                         <div class="image-container shadow-lg">
-                           <iframe src="https://www.youtube.com/embed/X3t_LlMP4pU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                           <iframe src="https://www.youtube.com/embed/X3t_LlMP4pU?vq=hd720" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
@@ -396,7 +396,7 @@
                     <div class="grid md:grid-cols-2 gap-12 items-center">
                         <div>
                             <h3 class="text-3xl font-bold mb-4 accent-text">Nanite Virtualized Geometry</h3>
-                            <p class="text-lg text-gray-300">Nanite is a core technology used to render massive amounts of geometric detail. It intelligently streams and processes only the detail a player can perceive, effectively eliminating polygon count constraints and manual LOD creation. This screenshot shows the Nanite triangle overview, visualizing how meshes are broken down into clusters and automatically scaled. Implementing Nanite was crucial for achieving a high level of environmental detail while maintaining high performance, making the game accessible to a wider range of hardware.
+                            <p class="text-lg text-gray-300">Nanite is a core technology used to render massive amounts of geometric detail. It intelligently streams and processes only the detail a player can perceive, effectively eliminating polygon count constraints and manual LOD creation. This screenshot shows the Nanite triangle overview, visualizing how meshes are broken down into clusters and automatically scaled. Implementing Nanite was crucial for achieving a high of environmental detail while maintaining high performance, making the game accessible to a wider range of hardware.
                             </p>
                         </div>
                          <div class="image-container zoomable shadow-lg">
@@ -413,7 +413,7 @@
                 <h2 class="section-title text-4xl md:text-5xl">Gameplay in Action</h2>
             </div>
             <div class="max-w-5xl mx-auto aspect-w-16 aspect-h-8 rounded-lg overflow-hidden shadow-2xl">
-                <iframe src="https://www.youtube.com/embed/22Vaw2AorcA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+                <iframe src="https://www.youtube.com/embed/22Vaw2AorcA?vq=hd720" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
             </div>
         </section>
         
@@ -424,7 +424,7 @@
                  <p class="mt-4 max-w-3xl mx-auto text-gray-300 text-xl">This project is published and available to download and play today.</p>
             </div>
             <div class="flex justify-center mt-8">
-                 <a href="#" class="btn-primary w-full md:w-auto text-center font-bold py-4 px-10 rounded-lg uppercase text-lg flex items-center justify-center gap-3">
+                 <a href="https://jmfranklin.itch.io/prototype" target="_blank" class="btn-primary w-full md:w-auto text-center font-bold py-4 px-10 rounded-lg uppercase text-lg flex items-center justify-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21.563 3.138a2.149 2.149 0 0 0-1.88-1.082H4.316a2.148 2.148 0 0 0-1.88 1.082L0 12l2.436 8.862a2.148 2.148 0 0 0 1.88 1.082h15.368a2.149 2.149 0 0 0 1.88-1.082L24 12l-2.437-8.862zM4.703 12l-1.89-6.862a.148.148 0 0 1 .129-.181h16.116a.148.148 0 0 1 .129.181L19.297 12l-7.294 2.654L4.703 12z"/></svg>
                     Play on Itch.io
                 </a>
@@ -435,83 +435,4 @@
     
     <!-- Image Modal -->
     <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center z-50 transition-opacity duration-300">
-        <span id="close-modal" class="absolute top-5 right-8 text-white text-5xl font-bold cursor-pointer hover:text-gray-400 transition-colors">&times;</span>
-        <img id="modal-image" src="" alt="Zoomed Image" class="max-w-[90vw] max-h-[90vh] object-contain">
-    </div>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Tech tabs functionality
-        const techTabs = document.querySelectorAll('.tech-tab-button');
-        const techContents = document.querySelectorAll('.tech-tab-content');
-
-        techTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                techTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                techContents.forEach(content => content.classList.add('hidden'));
-                document.getElementById(tab.dataset.target + '-content').classList.remove('hidden');
-            });
-        });
-
-        // Active nav link on scroll
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-link');
-        
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 100) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').includes(current)) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        // Image Modal Functionality
-        const modal = document.getElementById('image-modal');
-        const modalImage = document.getElementById('modal-image');
-        const closeModal = document.getElementById('close-modal');
-        const zoomableImages = document.querySelectorAll('.zoomable');
-
-        zoomableImages.forEach(container => {
-            container.addEventListener('click', () => {
-                const image = container.querySelector('img');
-                if (image) {
-                    modalImage.src = image.src;
-                    modal.classList.remove('hidden');
-                    modal.classList.add('flex');
-                    document.body.classList.add('modal-open');
-                }
-            });
-        });
-
-        const hideModal = () => {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.classList.remove('modal-open');
-        };
-
-        closeModal.addEventListener('click', hideModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                hideModal();
-            }
-        });
-    </script>
-
-</body>
-</html>
+        <span id="close-modal" class="absolute top-5 right-8 text-white text-5xl font-bold cursor-pointer hover:text-gray-400 transition-colors">&times;</sp
