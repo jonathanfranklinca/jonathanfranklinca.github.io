@@ -100,21 +100,6 @@
         html {
             scroll-behavior: smooth;
         }
-        .tech-tab-button {
-            color: #F0EAD6;
-            opacity: 0.7;
-            border-color: transparent;
-            transition: opacity 0.3s, border-color 0.3s, color 0.3s;
-        }
-        .tech-tab-button.active {
-            border-color: #2A3F33;
-            color: #D4AF37;
-            opacity: 1;
-        }
-        .tech-tab-button:not(.active):hover {
-            border-color: #2A3F33;
-            opacity: 1;
-        }
         .image-container {
             position: relative;
             width: 100%;
@@ -358,50 +343,38 @@
                 <p class="mt-4 max-w-3xl mx-auto text-gray-400">Implementing next-generation rendering and AI technologies for scalable performance and visuals.</p>
             </div>
             
-            <div id="tech-tabs" class="mb-8 flex justify-center border-b border-gray-700">
-                <button data-target="dlss" class="tech-tab-button active py-2 px-4 text-lg font-medium border-b-2">DLSS</button>
-                <button data-target="lumen" class="tech-tab-button py-2 px-4 text-lg font-medium border-b-2">Lumen</button>
-                <button data-target="nanite" class="tech-tab-button py-2 px-4 text-lg font-medium border-b-2">Nanite</button>
-            </div>
-
-            <div id="tech-content" class="tech-card glass-card rounded-xl p-10 md:p-16">
-                <!-- DLSS Content -->
-                <div id="dlss-content" class="tech-tab-content">
-                     <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h3 class="text-3xl font-bold mb-4 accent-text">NVIDIA DLSS Super Resolution</h3>
-                            <p class="text-lg text-gray-300">To further enhance performance, I integrated NVIDIA's Deep Learning Super Sampling (DLSS). This AI-powered technology renders the scene at a lower internal resolution and then intelligently upscales it to the target output resolution, providing a significant performance boost with minimal impact on image quality. This feature, exposed in the graphics menu, is key to allowing players to run the game at high resolutions and frame rates, even on mid-range hardware, aligning with the goal of broad accessibility.
-                            </p>
-                        </div>
-                        <div class="image-container zoomable shadow-lg">
-                           <img src="https://i.imgur.com/oesprYy.png" alt="DLSS Settings" style="object-position: left center;">
-                        </div>
+            <div class="space-y-16">
+                <!-- DLSS -->
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="tech-card glass-card rounded-xl p-10 md:p-16">
+                        <h3 class="text-3xl font-bold mb-4 accent-text">NVIDIA DLSS Super Resolution</h3>
+                        <p class="text-lg text-gray-300">To further enhance performance, I integrated NVIDIA's Deep Learning Super Sampling (DLSS). This AI-powered technology renders the scene at a lower internal resolution and then intelligently upscales it to the target output resolution, providing a significant performance boost with minimal impact on image quality. This feature, exposed in the graphics menu, is key to allowing players to run the game at high resolutions and frame rates, even on mid-range hardware, aligning with the goal of broad accessibility.
+                        </p>
+                    </div>
+                    <div class="image-container zoomable shadow-lg">
+                       <img src="https://i.imgur.com/oesprYy.png" alt="DLSS Settings" style="object-position: left center;">
                     </div>
                 </div>
-                <!-- Lumen Content -->
-                <div id="lumen-content" class="tech-tab-content hidden">
-                    <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h3 class="text-3xl font-bold mb-4 accent-text">Lumen Global Illumination & Reflections</h3>
-                            <p class="text-lg text-gray-300">The project leverages Lumen, Unreal Engine 5's fully dynamic global illumination and reflections system. This allows for realistic lighting that reacts instantly to scene changes. Hardware Ray Tracing is utilized to simulate the physical properties of light, creating incredibly lifelike scenes with accurate soft shadows and reflections. To ensure scalability, I implemented fine-tuned controls in the graphics menu, allowing players to adjust max trace distance, final gather quality, and scene lighting update speeds to balance visual fidelity with performance.
-                            </p>
-                        </div>
-                        <div class="image-container zoomable shadow-lg">
-                           <img src="https://i.imgur.com/1AjTauy.png" alt="Lumen Overview">
-                        </div>
+                <!-- Lumen -->
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="tech-card glass-card rounded-xl p-10 md:p-16">
+                        <h3 class="text-3xl font-bold mb-4 accent-text">Lumen Global Illumination & Reflections</h3>
+                        <p class="text-lg text-gray-300">The project leverages Lumen, Unreal Engine 5's fully dynamic global illumination and reflections system. This allows for realistic lighting that reacts instantly to scene changes. Hardware Ray Tracing is utilized to simulate the physical properties of light, creating incredibly lifelike scenes with accurate soft shadows and reflections. To ensure scalability, I implemented fine-tuned controls in the graphics menu, allowing players to adjust max trace distance, final gather quality, and scene lighting update speeds to balance visual fidelity with performance.
+                        </p>
+                    </div>
+                    <div class="image-container zoomable shadow-lg">
+                       <img src="https://i.imgur.com/1AjTauy.png" alt="Lumen Overview">
                     </div>
                 </div>
-                <!-- Nanite Content -->
-                <div id="nanite-content" class="tech-tab-content hidden">
-                    <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h3 class="text-3xl font-bold mb-4 accent-text">Nanite Virtualized Geometry</h3>
-                            <p class="text-lg text-gray-300">Nanite is a core technology used to render massive amounts of geometric detail. It intelligently streams and processes only the detail a player can perceive, effectively eliminating polygon count constraints and manual LOD creation. This screenshot shows the Nanite triangle overview, visualizing how meshes are broken down into clusters and automatically scaled. Implementing Nanite was crucial for achieving a high of environmental detail while maintaining high performance, making the game accessible to a wider range of hardware.
-                            </p>
-                        </div>
-                         <div class="image-container zoomable shadow-lg">
-                           <img src="https://i.imgur.com/0xtmtTF.png" alt="Nanite Triangles">
-                        </div>
+                <!-- Nanite -->
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="tech-card glass-card rounded-xl p-10 md:p-16">
+                        <h3 class="text-3xl font-bold mb-4 accent-text">Nanite Virtualized Geometry</h3>
+                        <p class="text-lg text-gray-300">Nanite is a core technology used to render massive amounts of geometric detail. It intelligently streams and processes only the detail a player can perceive, effectively eliminating polygon count constraints and manual LOD creation. This screenshot shows the Nanite triangle overview, visualizing how meshes are broken down into clusters and automatically scaled. Implementing Nanite was crucial for achieving a high of environmental detail while maintaining high performance, making the game accessible to a wider range of hardware.
+                        </p>
+                    </div>
+                     <div class="image-container zoomable shadow-lg">
+                       <img src="https://i.imgur.com/0xtmtTF.png" alt="Nanite Triangles">
                     </div>
                 </div>
             </div>
@@ -435,4 +408,70 @@
     
     <!-- Image Modal -->
     <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center z-50 transition-opacity duration-300">
-        <span id="close-modal" class="absolute top-5 right-8 text-white text-5xl font-bold cursor-pointer hover:text-gray-400 transition-colors">&times;</sp
+        <span id="close-modal" class="absolute top-5 right-8 text-white text-5xl font-bold cursor-pointer hover:text-gray-400 transition-colors">&times;</span>
+        <img id="modal-image" src="" alt="Zoomed Image" class="max-w-[90vw] max-h-[90vh] object-contain">
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Image Modal Functionality
+        const modal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const closeModal = document.getElementById('close-modal');
+        const zoomableImages = document.querySelectorAll('.zoomable');
+
+        zoomableImages.forEach(container => {
+            container.addEventListener('click', () => {
+                const image = container.querySelector('img');
+                if (image) {
+                    modalImage.src = image.src;
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    document.body.classList.add('modal-open');
+                }
+            });
+        });
+
+        const hideModal = () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('modal-open');
+        };
+
+        closeModal.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
