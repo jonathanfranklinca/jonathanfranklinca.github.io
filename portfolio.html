@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototyping in unreal engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1A2A22; /* Dark Desaturated Green */
+            color: #F0EAD6; /* Parchment Off-White */
+        }
+        body.modal-open {
+            overflow: hidden;
+        }
+        .font-roboto-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .glass-card {
+            background: rgba(26, 42, 34, 0.6); /* Semi-transparent dark green */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid #2A3F33;
+        }
+        .hero-bg {
+            background-image: 
+                linear-gradient(to bottom, rgba(26, 42, 34, 1) 0%, rgba(26, 42, 34, 0.7) 50%, rgba(26, 42, 34, 1) 100%),
+                url('https://i.imgur.com/XWovd76.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .accent-text {
+            color: #D4AF37; /* Gold */
+        }
+        .btn-primary {
+            background-color: #D4AF37;
+            color: #1A2A22;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #C89B2C;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #2A3F33;
+            color: #D4AF37;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+        .section-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2A3F33;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .tech-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2A3F33;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C89B2C;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .tech-tab-button {
+            color: #F0EAD6;
+            opacity: 0.7;
+            border-color: transparent;
+            transition: opacity 0.3s, border-color 0.3s, color 0.3s;
+        }
+        .tech-tab-button.active {
+            border-color: #2A3F33;
+            color: #D4AF37;
+            opacity: 1;
+        }
+        .tech-tab-button:not(.active):hover {
+            border-color: #2A3F33;
+            opacity: 1;
+        }
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 75%; /* 4:3 Aspect Ratio for Core Mechanics */
+            border-radius: 0.5rem; /* 8px */
+            overflow: hidden;
+            border: 2px solid #2A3F33; /* Thicker Dark Green border */
+        }
+        .image-container img, .image-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image-container.zoomable {
+            cursor: zoom-in;
+        }
+        /* Taller images specifically for the tech section */
+        #tech .image-container {
+            padding-top: 100%; /* 1:1 Aspect Ratio */
+        }
+    </style>
+    <!-- Tailwind CSS JIT requires this plugin for aspect ratio -->
+    <script src="https://cdn.tailwindcss.com?plugins=aspect-ratio"></script>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-[#1A2A22]/80 backdrop-blur-sm sticky top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-lg md:text-xl font-bold font-roboto-mono tracking-wider">Prototyping in Unreal Engine</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="nav-link">Overview</a>
+                <a href="#mechanics" class="nav-link">Mechanics</a>
+                <a href="#tech" class="nav-link">Deep Dive</a>
+                <a href="#media" class="nav-link">Media</a>
+                <a href="#links" class="nav-link">Links</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#1A2A22]">
+            <a href="#overview" class="block py-2 px-4 text-sm hover:bg-[#2A3F33]">Overview</a>
+            <a href="#mechanics" class="block py-2 px-4 text-sm hover:bg-[#2A3F33]">Mechanics</a>
+            <a href="#tech" class="block py-2 px-4 text-sm hover:bg-[#2A3F33]">Deep Dive</a>
+            <a href="#media" class="block py-2 px-4 text-sm hover:bg-[#2A3F33]">Media</a>
+            <a href="#links" class="block py-2 px-4 text-sm hover:bg-[#2A3F33]">Links</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center justify-center text-center">
+        <div class="bg-[#1A2A22] bg-opacity-60 p-8 md:p-12 rounded-lg">
+            <h1 class="text-4xl md:text-6xl font-black uppercase tracking-wider">Prototyping in unreal engine</h1>
+            <p class="mt-2 text-[#D4AF37] font-roboto-mono text-lg">Coded in Unreal Engine Blueprint & C++</p>
+            <div class="mt-8 flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6 font-roboto-mono">
+                <div class="border border-[#2A3F33] px-4 py-2 rounded-md">
+                    <span class="accent-text font-bold">3</span> Years of Development
+                </div>
+                <div class="border border-[#2A3F33] px-4 py-2 rounded-md">
+                    <span class="accent-text font-bold">1000+</span> Hours Invested
+                </div>
+                <div class="border border-[#2A3F33] px-4 py-2 rounded-md">
+                    <span class="font-bold">Solo Programmed & Designed</span>
+                </div>
+            </div>
+             <div class="mt-10">
+                <a href="#media" class="btn-primary font-bold py-3 px-8 rounded-lg uppercase text-lg">Watch Gameplay</a>
+            </div>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-6 py-16 md:py-24 space-y-24 md:space-y-32">
+
+        <!-- Overview Section -->
+        <section id="overview">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-4xl md:text-5xl">Project Overview</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-400">From concept to completion, this project represents a comprehensive, self-taught journey through modern game development.</p>
+            </div>
+            <div class="glass-card rounded-xl p-8 md:p-12">
+                <p class="text-lg leading-relaxed text-gray-300">
+                    Developed in Unreal Engine 5 over two years, this physics-based first-person shooter was a solo programming and design endeavor involving over 1,000 hours of dedicated work. The project was an exercise in self-directed learning, integrating a variety of pre-made 3D models and established code libraries to focus on the core challenge: engineering the complex gameplay systems and mechanics from scratch. The development process encompassed a wide spectrum of disciplines, including intricate game mechanics, advanced visual effects (VFX), artificial intelligence (AI) design, and rigorous performance optimization using both Blueprint visual scripting and C++. The result is a feature-rich game with customizable graphics settings, responsive enemy behavior, and scalable next-gen visuals powered by Lumen, Nanite, and NVIDIA DLSS.
+                </p>
+            </div>
+        </section>
+
+        <!-- Core Mechanics Section -->
+        <section id="mechanics">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-4xl md:text-5xl">Core Mechanics</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-400">Engineering an immersive and dynamic player experience from scratch.</p>
+            </div>
+
+            <div class="space-y-16">
+                <!-- First Person Character -->
+                <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                    <div class="tech-card glass-card rounded-xl p-8 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4 accent-text">First-Person Character Controller</h3>
+                        <p class="text-gray-300">
+                            The player controller is the nexus of all user interaction, built as a single, comprehensive C++ class with exposed properties for Blueprint customization. It's comprised of a capsule component for collision and physics interaction, a cinematic camera for an immersive viewpoint, and skeletal meshes for the character's arms and equipped weapon. This central class houses all logic for player movement, including custom physics for jumping and crouching, as well as weapon handling and world interaction. A key feature is the ability to interact with physics objects in the world. This is achieved using a Physics Handle component, which allows the player to "grab" objects by tracing for a physics body, attaching the handle, and then updating the handle's target location and rotation each frame. This creates a smooth, intuitive system for manipulating the environment.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/IA5H9ku.png" alt="First Person Character Blueprint">
+                        </div>
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/jJROifn.png" alt="Second image for character controller">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Procedural Foliage & Map Generation -->
+                <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                    <div class="tech-card glass-card rounded-xl p-8 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4 accent-text">Procedural Foliage & Map Generation</h3>
+                        <p class="text-gray-300">
+                            To enhance replayability and streamline the level design process, the project utilizes procedural generation for both the environment layout and foliage placement. The map is generated using a series of algorithms that create varied terrain, ensuring no two playthroughs are exactly alike. This approach allows for rapid iteration and testing of different level configurations. On top of this, a procedural foliage system was implemented. This system uses user-defined rules and volumes to automatically populate the world with trees, rocks, and grass. It intelligently handles density, scaling, and alignment to the terrain, creating natural-looking environments with minimal manual effort. This not only speeds up development but also allows for the creation of vast, detailed landscapes that would be time-consuming to place by hand.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/PJpJ1L3.png" alt="Procedural Map Generation">
+                        </div>
+                        <div class="image-container shadow-lg">
+                            <iframe src="https://www.youtube.com/embed/2Vs1pWuN2R8?vq=hd720" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3D Mesh & Collision Optimization -->
+                <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                    <div class="tech-card glass-card rounded-xl p-8 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4 accent-text">3D Mesh & Collision Optimization</h3>
+                        <p class="text-gray-300">
+                            Performance is paramount, and a robust optimization strategy was implemented to ensure a smooth framerate. Beyond the engine-level benefits of Nanite, a manual, multi-tiered Level of Detail (LOD) system was created for key assets. For hero props and weapons, several lower-polygon versions of a mesh were manually configured to ensure visual fidelity was preserved at each stage of the transition. Another critical optimization was managing collision complexity. Instead of using the high-poly render meshes for physics calculations, which is computationally expensive, simplified collision was created. For simple objects, basic primitives like boxes and capsules were used. For more complex shapes, custom low-poly collision meshes were generated and refined. This drastically reduces the overhead of physics simulations, especially in scenes with many dynamic objects, without sacrificing the perceived accuracy of collisions.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/6vLX0Ej.png" alt="LOD Comparison">
+                        </div>
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/GMBbXWd.png" alt="Simplified Collision Mesh">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weapon Logic -->
+                <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                    <div class="tech-card glass-card rounded-xl p-8 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4 accent-text">Dynamic Weapon & Damage System</h3>
+                        <p class="text-gray-300">
+                            The weapon system utilizes the Enhanced Input Action framework for responsive firing. Hit detection is performed using a `LineTraceByChannel` call that fires a trace from the center of the player's camera to ensure pixel-perfect accuracy, independent of the weapon's on-screen position. The system uses the `Break Hit Result` node to get detailed information about the impacted surface, including the specific bone on skeletal meshes. This enables realistic, physics-based reactions and location-based damage multipliers. A key feature is the procedural recoil system. Instead of relying on static animations, each shot applies a direct rotational input to the player's camera using `AddControllerPitchInput` and `AddControllerYawInput`. This recoil is driven by a curve asset, allowing for a dynamic kick that feels powerful and less repetitive. The game also features an upgrade system where players can use collected resources to improve weapon stats like damage, fire rate, and recoil reduction, which are stored and managed in a Data Table. Finally, muzzle flash and smoke are handled by the Cascade particle system for impactful visual feedback.
+                        </p>
+                    </div>
+                     <div class="flex flex-col gap-8">
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/W9pDXjT.png" alt="Weapon Logic Blueprint">
+                        </div>
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/cSLNwRs.png" alt="Second image for weapon system">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI System -->
+                <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                    <div class="tech-card glass-card rounded-xl p-8 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4 accent-text">Advanced Enemy AI</h3>
+                        <p class="text-gray-300">
+                           The AI system is built to support multiple enemy archetypes with distinct behaviors governed by a robust behavior tree. This tree dictates the AI's state machine, from idle roaming to active combat. Pathfinding is handled by Unreal's built-in Navigation System, but the decision-making is custom. For instance, the melee "Raider" uses a simple `AI MoveTo` function to aggressively close the distance on the player. The more advanced "Captain" unit uses the same pathfinding core but with a more complex set of rules. Its behavior tree uses blackboard keys to track the player's last known location and custom decorators to check conditions like line of sight and optimal attack range before committing to an action. Services run on a timer to periodically update the AI's awareness, making its behavior less predictable. The Captain's projectiles are complex Cascade particle system animations for impressive visual flair. To provide players with crucial feedback, its actions are telegraphed using 3D spatial audio, with distinct sounds for aiming, firing, and reloading that allow players to react to threats even when they are off-screen. Finally, the "Cannon" is a unique composite enemy, managing four child actors that are locked to its skeletal mesh to create the illusion of being pushed, while the main cannon body handles its own movement and firing logic.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/okCXEQj.png" alt="Enemy AI Behavior Tree">
+                        </div>
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/u6o7XqC.png" alt="Second image for AI system">
+                        </div>
+                        <div class="image-container shadow-lg">
+                           <iframe src="https://www.youtube.com/embed/wsgtWoqjOVg?vq=hd720" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Dismemberment System -->
+                <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                    <div class="tech-card glass-card rounded-xl p-8 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4 accent-text">Physics-Based Dismemberment System</h3>
+                        <p class="text-gray-300">
+                            Upon receiving a fatal damage event, enemies trigger a dynamic dismemberment sequence. The system identifies the impacted bone from the hit result and spawns a separate limb actor at a precisely named socket that has been parented to that bone in the skeletal mesh editor (e.g., `upperarm_l_socket`). To ensure a seamless transition, the system simultaneously calls `HideBoneByName` on the main skeletal mesh, making the original limb invisible. It then enables `Simulate Physics` on the main body, breaking it out of its animation state and allowing for a physics-driven "ragdoll" effect. A carefully calculated impulse, derived from the damage event's direction and magnitude, is then applied to both the main body and the newly spawned limb using `AddImpulseAtLocation`. This ensures that both the body and the severed part react realistically to the force of the final blow, creating a satisfying and visually coherent effect.
+                        </p>
+                    </div>
+                     <div class="flex flex-col gap-8">
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/Q5AB1xQ.png" alt="Dismemberment Blueprint">
+                        </div>
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/eTqq455.png" alt="Second image for dismemberment system">
+                        </div>
+                        <div class="image-container shadow-lg">
+                           <iframe src="https://www.youtube.com/embed/9PSAnk8zqd4?vq=hd720" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Grenade Logic -->
+                <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                    <div class="tech-card glass-card rounded-xl p-8 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4 accent-text">Throwable Projectiles & AOE Damage</h3>
+                        <p class="text-gray-300">
+                            The grenade system demonstrates projectile physics and area-of-effect damage. The throw trajectory is calculated using a vector between two points on an arrow component attached to the player camera. Upon detonation, the grenade spawns a Lumen-enabled point light and performs a sphere trace to gather all enemies within its blast radius. The explosion's visual effect is a custom-configured Cascade particle system. This system is composed of multiple emitters layered together: a core fireball using an animated SubUV texture sheet, a fast-expanding shockwave mesh particle, dozens of GPU-simulated sparks that can collide with the environment, and several wispy smoke emitters that linger after the initial blast. The explosion physics are handled by a Radial Force Component, which is activated on detonation to apply a strong, outward impulse to all physics-enabled objects within its radius, sending enemies and debris flying for a satisfying, chaotic effect.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <div class="image-container zoomable shadow-lg">
+                            <img src="https://i.imgur.com/kHdTbCB.png" alt="Grenade Explosion Logic">
+                        </div>
+                        <div class="image-container shadow-lg">
+                           <iframe src="https://www.youtube.com/embed/X3t_LlMP4pU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Technical Deep Dive Section -->
+        <section id="tech">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-4xl md:text-5xl">Technical Deep Dive</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-400">Implementing next-generation rendering and AI technologies for scalable performance and visuals.</p>
+            </div>
+            
+            <div id="tech-tabs" class="mb-8 flex justify-center border-b border-gray-700">
+                <button data-target="dlss" class="tech-tab-button active py-2 px-4 text-lg font-medium border-b-2">DLSS</button>
+                <button data-target="lumen" class="tech-tab-button py-2 px-4 text-lg font-medium border-b-2">Lumen</button>
+                <button data-target="nanite" class="tech-tab-button py-2 px-4 text-lg font-medium border-b-2">Nanite</button>
+            </div>
+
+            <div id="tech-content" class="tech-card glass-card rounded-xl p-10 md:p-16">
+                <!-- DLSS Content -->
+                <div id="dlss-content" class="tech-tab-content">
+                     <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold mb-4 accent-text">NVIDIA DLSS Super Resolution</h3>
+                            <p class="text-lg text-gray-300">To further enhance performance, I integrated NVIDIA's Deep Learning Super Sampling (DLSS). This AI-powered technology renders the scene at a lower internal resolution and then intelligently upscales it to the target output resolution, providing a significant performance boost with minimal impact on image quality. This feature, exposed in the graphics menu, is key to allowing players to run the game at high resolutions and frame rates, even on mid-range hardware, aligning with the goal of broad accessibility.
+                            </p>
+                        </div>
+                        <div class="image-container zoomable shadow-lg">
+                           <img src="https://i.imgur.com/oesprYy.png" alt="DLSS Settings" style="object-position: left center;">
+                        </div>
+                    </div>
+                </div>
+                <!-- Lumen Content -->
+                <div id="lumen-content" class="tech-tab-content hidden">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold mb-4 accent-text">Lumen Global Illumination & Reflections</h3>
+                            <p class="text-lg text-gray-300">The project leverages Lumen, Unreal Engine 5's fully dynamic global illumination and reflections system. This allows for realistic lighting that reacts instantly to scene changes. Hardware Ray Tracing is utilized to simulate the physical properties of light, creating incredibly lifelike scenes with accurate soft shadows and reflections. To ensure scalability, I implemented fine-tuned controls in the graphics menu, allowing players to adjust max trace distance, final gather quality, and scene lighting update speeds to balance visual fidelity with performance.
+                            </p>
+                        </div>
+                        <div class="image-container zoomable shadow-lg">
+                           <img src="https://i.imgur.com/1AjTauy.png" alt="Lumen Overview">
+                        </div>
+                    </div>
+                </div>
+                <!-- Nanite Content -->
+                <div id="nanite-content" class="tech-tab-content hidden">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold mb-4 accent-text">Nanite Virtualized Geometry</h3>
+                            <p class="text-lg text-gray-300">Nanite is a core technology used to render massive amounts of geometric detail. It intelligently streams and processes only the detail a player can perceive, effectively eliminating polygon count constraints and manual LOD creation. This screenshot shows the Nanite triangle overview, visualizing how meshes are broken down into clusters and automatically scaled. Implementing Nanite was crucial for achieving a high level of environmental detail while maintaining high performance, making the game accessible to a wider range of hardware.
+                            </p>
+                        </div>
+                         <div class="image-container zoomable shadow-lg">
+                           <img src="https://i.imgur.com/0xtmtTF.png" alt="Nanite Triangles">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Media Section -->
+        <section id="media">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-4xl md:text-5xl">Gameplay in Action</h2>
+            </div>
+            <div class="max-w-5xl mx-auto aspect-w-16 aspect-h-8 rounded-lg overflow-hidden shadow-2xl">
+                <iframe src="https://www.youtube.com/embed/22Vaw2AorcA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+            </div>
+        </section>
+        
+        <!-- Links Section -->
+        <section id="links">
+             <div class="text-center mb-12">
+                <h2 class="section-title text-4xl md:text-5xl">Published & Available Online</h2>
+                 <p class="mt-4 max-w-3xl mx-auto text-gray-300 text-xl">This project is published and available to download and play today.</p>
+            </div>
+            <div class="flex justify-center mt-8">
+                 <a href="#" class="btn-primary w-full md:w-auto text-center font-bold py-4 px-10 rounded-lg uppercase text-lg flex items-center justify-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21.563 3.138a2.149 2.149 0 0 0-1.88-1.082H4.316a2.148 2.148 0 0 0-1.88 1.082L0 12l2.436 8.862a2.148 2.148 0 0 0 1.88 1.082h15.368a2.149 2.149 0 0 0 1.88-1.082L24 12l-2.437-8.862zM4.703 12l-1.89-6.862a.148.148 0 0 1 .129-.181h16.116a.148.148 0 0 1 .129.181L19.297 12l-7.294 2.654L4.703 12z"/></svg>
+                    Play on Itch.io
+                </a>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Image Modal -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center z-50 transition-opacity duration-300">
+        <span id="close-modal" class="absolute top-5 right-8 text-white text-5xl font-bold cursor-pointer hover:text-gray-400 transition-colors">&times;</span>
+        <img id="modal-image" src="" alt="Zoomed Image" class="max-w-[90vw] max-h-[90vh] object-contain">
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Tech tabs functionality
+        const techTabs = document.querySelectorAll('.tech-tab-button');
+        const techContents = document.querySelectorAll('.tech-tab-content');
+
+        techTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                techTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                techContents.forEach(content => content.classList.add('hidden'));
+                document.getElementById(tab.dataset.target + '-content').classList.remove('hidden');
+            });
+        });
+
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Image Modal Functionality
+        const modal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const closeModal = document.getElementById('close-modal');
+        const zoomableImages = document.querySelectorAll('.zoomable');
+
+        zoomableImages.forEach(container => {
+            container.addEventListener('click', () => {
+                const image = container.querySelector('img');
+                if (image) {
+                    modalImage.src = image.src;
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    document.body.classList.add('modal-open');
+                }
+            });
+        });
+
+        const hideModal = () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('modal-open');
+        };
+
+        closeModal.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
