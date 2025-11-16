@@ -113,8 +113,9 @@
             border-radius: 0.5rem; /* 8px */
             overflow: hidden;
             border: 2px solid #2A3F33; /* Thicker Dark Green border */
+            cursor: pointer; /* Indicate it's clickable */
         }
-        .image-container img, .image-container iframe {
+        .image-container img {
             position: absolute;
             top: 0;
             left: 0;
@@ -128,6 +129,27 @@
         /* Taller images specifically for the tech section */
         #tech .image-container {
             padding-top: 100%; /* 1:1 Aspect Ratio */
+        }
+
+        /* Styles for the video link overlay */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .video-overlay:hover .play-icon {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .play-icon {
+            opacity: 0.9;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
     </style>
     <!-- Tailwind CSS JIT requires this plugin for aspect ratio -->
@@ -238,9 +260,19 @@
                         <div class="image-container zoomable shadow-lg">
                             <img src="https://i.imgur.com/PJpJ1L3.png" alt="Procedural Map Generation">
                         </div>
+                        <!-- START: Converted YouTube iframe to clickable link/thumbnail -->
                         <div class="image-container shadow-lg">
-                            <iframe src="https://www.youtube.com/embed/2Vs1pWuN2R8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                           <a href="https://www.youtube.com/watch?v=2Vs1pWuN2R8" target="_blank" class="video-overlay">
+                                <img src="https://img.youtube.com/vi/2Vs1pWuN2R8/maxresdefault.jpg" alt="Procedural Generation Video Thumbnail" class="absolute w-full h-full object-cover">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-10 transition-opacity duration-300">
+                                    <!-- Play Icon (SVG) -->
+                                    <svg class="play-icon w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l4.1-2.22c.38-.21.84-.21 1.22 0l4.1 2.22c.67.36 1.05 1.1.9 1.83-.15.73-.77 1.24-1.5 1.24H7.07c-.73 0-1.35-.51-1.5-1.24-.15-.73.23-1.47.9-1.83z"/>
+                                    </svg>
+                                </div>
+                            </a>
                         </div>
+                        <!-- END: Converted YouTube iframe to clickable link/thumbnail -->
                     </div>
                 </div>
 
@@ -295,9 +327,19 @@
                         <div class="image-container zoomable shadow-lg">
                             <img src="https://i.imgur.com/u6o7XqC.png" alt="Second image for AI system">
                         </div>
+                        <!-- START: Converted YouTube iframe to clickable link/thumbnail -->
                         <div class="image-container shadow-lg">
-                           <iframe src="https://www.youtube.com/embed/wsgtWoqjOVg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                           <a href="https://www.youtube.com/watch?v=wsgtWoqjOVg" target="_blank" class="video-overlay">
+                                <img src="https://img.youtube.com/vi/wsgtWoqjOVg/maxresdefault.jpg" alt="AI System Video Thumbnail" class="absolute w-full h-full object-cover">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-10 transition-opacity duration-300">
+                                    <!-- Play Icon (SVG) -->
+                                    <svg class="play-icon w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l4.1-2.22c.38-.21.84-.21 1.22 0l4.1 2.22c.67.36 1.05 1.1.9 1.83-.15.73-.77 1.24-1.5 1.24H7.07c-.73 0-1.35-.51-1.5-1.24-.15-.73.23-1.47.9-1.83z"/>
+                                    </svg>
+                                </div>
+                            </a>
                         </div>
+                        <!-- END: Converted YouTube iframe to clickable link/thumbnail -->
                     </div>
                 </div>
 
@@ -316,9 +358,19 @@
                         <div class="image-container zoomable shadow-lg">
                             <img src="https://i.imgur.com/eTqq455.png" alt="Second image for dismemberment system">
                         </div>
+                        <!-- START: Converted YouTube iframe to clickable link/thumbnail -->
                         <div class="image-container shadow-lg">
-                           <iframe src="https://www.youtube.com/embed/9PSAnk8zqd4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                           <a href="https://www.youtube.com/watch?v=9PSAnk8zqd4" target="_blank" class="video-overlay">
+                                <img src="https://img.youtube.com/vi/9PSAnk8zqd4/maxresdefault.jpg" alt="Dismemberment Video Thumbnail" class="absolute w-full h-full object-cover">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-10 transition-opacity duration-300">
+                                    <!-- Play Icon (SVG) -->
+                                    <svg class="play-icon w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l4.1-2.22c.38-.21.84-.21 1.22 0l4.1 2.22c.67.36 1.05 1.1.9 1.83-.15.73-.77 1.24-1.5 1.24H7.07c-.73 0-1.35-.51-1.5-1.24-.15-.73.23-1.47.9-1.83z"/>
+                                    </svg>
+                                </div>
+                            </a>
                         </div>
+                        <!-- END: Converted YouTube iframe to clickable link/thumbnail -->
                     </div>
                 </div>
 
@@ -334,9 +386,19 @@
                         <div class="image-container zoomable shadow-lg">
                             <img src="https://i.imgur.com/kHdTbCB.png" alt="Grenade Explosion Logic">
                         </div>
+                        <!-- START: Converted YouTube iframe to clickable link/thumbnail -->
                         <div class="image-container shadow-lg">
-                           <iframe src="https://www.youtube.com/embed/X3t_LlMP4pU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                           <a href="https://www.youtube.com/watch?v=X3t_LlMP4pU" target="_blank" class="video-overlay">
+                                <img src="https://img.youtube.com/vi/X3t_LlMP4pU/maxresdefault.jpg" alt="Grenade Video Thumbnail" class="absolute w-full h-full object-cover">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-10 transition-opacity duration-300">
+                                    <!-- Play Icon (SVG) -->
+                                    <svg class="play-icon w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l4.1-2.22c.38-.21.84-.21 1.22 0l4.1 2.22c.67.36 1.05 1.1.9 1.83-.15.73-.77 1.24-1.5 1.24H7.07c-.73 0-1.35-.51-1.5-1.24-.15-.73.23-1.47.9-1.83z"/>
+                                    </svg>
+                                </div>
+                            </a>
                         </div>
+                        <!-- END: Converted YouTube iframe to clickable link/thumbnail -->
                     </div>
                 </div>
 
@@ -392,9 +454,21 @@
             <div class="text-center mb-12">
                 <h2 class="section-title text-4xl md:text-5xl">Gameplay in Action</h2>
             </div>
-            <div class="max-w-5xl mx-auto aspect-w-16 aspect-h-8 rounded-lg overflow-hidden shadow-2xl">
-                <iframe src="https://www.youtube.com/embed/22Vaw2AorcA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+            <!-- START: Converted Media Section YouTube iframe to clickable link/thumbnail -->
+            <div class="max-w-5xl mx-auto rounded-lg overflow-hidden shadow-2xl">
+                 <div class="image-container video-link" style="padding-top: 50%;"> <!-- 2:1 Aspect Ratio (approx 16:8) -->
+                     <a href="https://www.youtube.com/watch?v=22Vaw2AorcA" target="_blank" class="video-overlay">
+                        <img src="https://img.youtube.com/vi/22Vaw2AorcA/maxresdefault.jpg" alt="Full Gameplay Video Thumbnail" class="absolute w-full h-full object-cover">
+                        <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 hover:bg-opacity-20 transition-opacity duration-300">
+                            <!-- Larger Play Icon -->
+                            <svg class="play-icon w-20 h-20 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l4.1-2.22c.38-.21.84-.21 1.22 0l4.1 2.22c.67.36 1.05 1.1.9 1.83-.15.73-.77 1.24-1.5 1.24H7.07c-.73 0-1.35-.51-1.5-1.24-.15-.73.23-1.47.9-1.83z"/>
+                            </svg>
+                        </div>
+                    </a>
+                 </div>
             </div>
+            <!-- END: Converted Media Section YouTube iframe to clickable link/thumbnail -->
         </section>
 
     </main>
@@ -443,6 +517,7 @@
         const modal = document.getElementById('image-modal');
         const modalImage = document.getElementById('modal-image');
         const closeModal = document.getElementById('close-modal');
+        // Only zoomable images (non-video) will trigger the modal
         const zoomableImages = document.querySelectorAll('.zoomable');
 
         zoomableImages.forEach(container => {
